@@ -1,0 +1,94 @@
+#include <stdio.h>
+
+struct no {
+    int chave;
+    struct no *esq;
+    struct no *dir;
+};
+typedef struct no *arv;
+
+arv constroiarv(arv r, arv s){
+    if(r == NULL) {
+        r = s;
+        return r;
+    }
+    
+    else {
+        if(r->chave < s->chave && r->dir != NULL) constroiarv(r->dir, s);
+        else {
+            if(r->dir == NULL){
+                r->dir = s;
+                return r;
+            }
+            else {
+                if(r->esq == NULL) {
+                    r->esq = s;
+                    return r;
+                }
+                else constroiarv(r->esq, s);
+            };
+        };
+    };
+};
+
+void pre(arv r){
+    if(r != NULL){
+        printf("%i ", r->chave);
+        pre(r->esq);
+        pre(r->dir);
+    };
+};
+
+void in(arv r) {
+    if(r != NULL) {
+        in(r->esq);
+        printf("%i ", r -> chave);
+        in(r->dir);
+    };
+};
+
+void pos(arv r) {
+    if(r != NULL) {
+        pos(r->esq);
+        pos(r->dir);
+        printf("%i ", r->chave);
+    };
+};
+
+int main() {
+ 
+    int x, y;
+    scanf("%i", &x);
+    scanf("%i", &y);
+    int l[y + 1];
+    scanf("%[^\n]", l);
+    for(int k = 0; k < x; k++) {
+        arv r = malloc(sizeof(*r));
+        arv t = malloc(sizeof(*t));
+        r = NULL;
+        t = r;
+        int j = 0;
+        while(j < y) {
+            arv p = malloc(sizeof(*p));
+            p -> chave = l[j];
+            p -> esq = NULL;
+            p -> dir = NULL;
+            t = constroiarv(t, p);
+            j++;
+        };
+        printf("Case %i:\n", k + 1);
+        printf("Pre.: ");
+        pre(t);
+        printf("\n");
+        printf("In..: ");
+        printf("\n");
+        in(t);
+        printf("\n");
+        printf("Post: ");
+        printf("\n");
+        pos(t);
+    };
+    
+ 
+    return 0;
+}
